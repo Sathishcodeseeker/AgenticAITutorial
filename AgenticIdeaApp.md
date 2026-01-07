@@ -1,14 +1,4 @@
 
-* a **project proposal**
-* a **POC / hackathon submission**
-* a **system design interview explanation**
-* a **GitHub project README base**
-* or even **SYS.1 / SYS.2 style requirements**
-
-I’ll keep it **engineering-oriented**, not fluffy.
-
----
-
 # 📌 Project Requirement Specification
 
 ## **Agentic AI Platform using Python + LangGraph + MCP**
