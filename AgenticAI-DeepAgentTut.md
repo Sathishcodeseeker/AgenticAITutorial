@@ -1,7 +1,4 @@
-This is the **right question at the right time**.
-I’ll walk you through **exactly what happens when you call `agent.invoke()`** and **how your natural language question becomes a Tavily search query**.
 
-No abstractions. No skipped steps.
 
 ---
 
