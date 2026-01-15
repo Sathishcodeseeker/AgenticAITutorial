@@ -244,11 +244,196 @@ That **directly improves query quality**.
 
 ---
 
-If you want next:
+Below is a **concise, clean summary** you can **directly paste into your `.md` file**.
+It compresses **guardrails + truth verification** into an **engineering-readable section**, without theory overload.
 
-* How to force a tool call
-* How to inspect the raw tool-call message
-* How to control query formulation
-* What happens if the tool fails
+---
 
-Say which one.
+### 📌 Section to Add: *Guardrails & Truth Verification in Agentic Systems*
+
+## Guardrails & Truth Verification in Agentic Systems
+
+This section summarizes **how agent outputs are constrained and verified** to ensure safety, correctness, and trustworthiness.
+
+Guardrails are **not prompts alone**.
+They are **enforcement mechanisms implemented in code, state, tools, and schemas**.
+
+---
+
+## 1️⃣ What Guardrails Are (Correct Definition)
+
+**Guardrails = constraints that the LLM cannot bypass**
+
+If the model can ignore something, it is **not a guardrail**.
+
+| Type                     | Strength               |
+| ------------------------ | ---------------------- |
+| Prompt instructions      | ❌ Soft (guidance only) |
+| Code checks              | ✅ Hard                 |
+| State-machine rules      | ✅ Hard                 |
+| Tool enforcement         | ✅ Hard                 |
+| Output schema validation | ✅ Hard                 |
+
+Prompts guide behavior.
+Guardrails **enforce behavior**.
+
+---
+
+## 2️⃣ Guardrail Layers Used in This Agent
+
+### Input Guardrails
+
+Prevent:
+
+* fake experience generation
+* impersonation
+* unethical job manipulation
+
+Implemented as **pre-LLM validation**.
+
+---
+
+### Reasoning Guardrails
+
+Force bounded decisions only:
+
+```text
+APPLY | APPLY_AFTER_FIX | SKIP | NEEDS_MORE_INFO
+```
+
+Prevents:
+
+* vague advice
+* overconfident suggestions
+* hallucinated certainty
+
+---
+
+### Tool Guardrails (Critical)
+
+Certain decisions **require tool usage**.
+
+Examples:
+
+* Job legitimacy → company website + domain check
+* Recruiter verification → email domain validation
+* Market expectations → recent job postings
+
+If required tools are not called → **execution stops**.
+
+---
+
+### State-Machine Guardrails (LangGraph)
+
+Agent cannot skip steps.
+
+Example:
+
+* No decision allowed unless:
+
+  * resume parsed
+  * job verified
+  * fit analyzed
+
+This makes the agent:
+
+* deterministic
+* debuggable
+* production-safe
+
+---
+
+### Output Guardrails
+
+Every final answer must contain:
+
+```text
+Decision
+Reasoning
+Evidence Used
+Risk Level
+Confidence
+```
+
+Outputs that violate schema are rejected.
+
+---
+
+## 3️⃣ What “Truthy Output” Means (Important)
+
+Truthy output does **not** mean absolute truth.
+
+An output is considered **truthy** if:
+
+1. Claims are backed by evidence
+2. Evidence comes from tools or documents
+3. Claims do not exceed available information
+4. Uncertainty is explicitly stated
+
+---
+
+## 4️⃣ Truth Verification Rules
+
+### Rule 1: No Claim Without Evidence
+
+Every factual claim must map to:
+
+* tool output
+* document
+* URL
+* database result
+
+---
+
+### Rule 2: Cross-Source Agreement
+
+* 1 source → weak confidence
+* 2 independent sources → acceptable
+* 3+ sources → strong
+
+Confidence is **capped** based on source count.
+
+---
+
+### Rule 3: Claim–Evidence Binding
+
+Evidence must **explicitly support** the claim.
+
+Claims without supporting evidence are rejected.
+
+---
+
+### Rule 4: Constraint Checking
+
+The agent must never:
+
+* guarantee hiring
+* give legal or medical advice
+* claim 100% certainty
+
+---
+
+### Rule 5: Confidence Bounding
+
+Confidence is **computed**, not chosen by the LLM.
+
+Higher confidence requires:
+
+* multiple sources
+* strong agreement
+* low uncertainty
+
+---
+
+## 5️⃣ Key Takeaway
+
+* Prompts **guide**
+* Guardrails **enforce**
+* Tools **verify**
+* Code **decides what is allowed**
+* Confidence reflects **evidence strength**
+
+If an answer cannot explain **why it is true**, it is not truthy.
+
+---
+
